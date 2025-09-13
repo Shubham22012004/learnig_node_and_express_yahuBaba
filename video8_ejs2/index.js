@@ -4,8 +4,9 @@ import {Contact} from './models/contact.models.js';
 const app = express();
 
 app.set('view engine', "ejs")
-app.use(express.urlencoded({extended:false})) //using form data
+app.use(express.urlencoded({extended:true})) //using form data
 app.use(express.static("public")) //static file
+// app.use(express.json())
 
 
 mongoose.connect('mongodb://127.0.0.1:27017/contact-app')
@@ -36,14 +37,22 @@ app.get('/show-contact/:id', async (req,res)=> {
 app.get('/add-contact', (req,res)=>{ res.render('add-contact')})
 
 //for submit the form
-app.post('/add-contact/', (req,res)=>{ res.render("add-contact")})
+app.post('/add-contact', async (req,res)=>{
+    
+    // res.send("contact add successfully");
+    await Contact.create(req.body);
+    res.redirect("/");
+})
+
 
 app.get('/update-contact/:id', async (req,res)=>{ 
     
 
 })
 
-app.post('/update-contact/:id', (req,res)=>{ res.render('update-contact')})
+app.post('/update-contact/:id', async (req,res)=>{
+    
+})
 
 app.delete('/delete-contact/:id', (req,res)=>{})
 
