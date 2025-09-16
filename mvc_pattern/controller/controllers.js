@@ -1,9 +1,51 @@
 import {Contact} from "../models/contact.model.js";
-// import mongoose from 'mongoose';
+import mongoose from 'mongoose';
 
 export const get_Contacts = async (req,res)=>{ 
-    const cont = await Contact.find();
-    res.render('home',{contacts:cont});
+    try{
+    // const cont = await Contact.find();
+        
+        const {page=1, limit= 3} = req.query; 
+        /*
+        first time req is empty as localhost:3000 so the default value work
+
+        req.query take the data from href of home.ejs
+
+        <%for(let i=1; i<=totalPages; i++){ %>
+                    <li class="page-item"><a class="page-link" 
+                    
+                    href="/?page=<%= i%>">
+                    
+                    <%= i%></a></li> 
+                    <!-- href is used to provide the query to req of / -->
+                    <% }%>
+        */
+        const options ={
+            page:parseInt(page),//req.body provide string
+            limit:parseInt(limit)
+        }
+        const result = await Contact.paginate({},options);
+        
+        // console.log(result.prevPage);
+        // console.log(result.nextPage);
+        
+        res.render('home',{
+            totalDocs: result.totalDocs,
+            limit: result.limit,
+            totalPages: result.totalPages,
+            page: result.page,            
+            pagingCounter: result.pagingCounter,
+            hasPrevPage: result.hasPrevPagealse,
+            hasNextPage: result.hasNextPagerue,
+            prevPage: result.prevPageull,
+            nextPage: result.nextPage,
+            contacts: result.docs  //docs contain all data coming from database save in contacts
+        });
+
+        
+    }catch(err){
+        console.log(err);
+    }
 }
 
 export const get_Contact =  async (req,res)=> {

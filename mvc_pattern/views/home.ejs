@@ -38,7 +38,7 @@
                           <td><%= contact.lname %></td>
                           <td><%= contact.email %></td>
                           <td><%= contact.phone %></td>
-                          <td><%= contact.address %></td>
+                          <!-- <td><%= contact.address %></td> -->
                       
                       
                       <td width="150">
@@ -48,10 +48,31 @@
                       </td> 
                       </tr>
 
-                    <% }) %>
+                      <% }) %>
                    
                   </tbody>
                 </table> 
+
+                <nav aria-label="...">
+                  <ul class="pagination justify-content-center">
+
+                    <% var disableClass1 = hasPrevPage ? "": "disabled"; %>
+                    <li class="page-item <%= disableClass1 %> ">
+                      <a class="page-link" href="/?page=<%= prevPage %>">Previous</a>
+                    </li>
+
+                    <%for(let i=1; i<=totalPages; i++){ %>
+                    <li class="page-item"><a class="page-link" href="/?page=<%= i%>"><%= i%></a></li> 
+                    <!-- href is used to provide the query to req of / -->
+                    <% }%>
+                    
+                    <li class="page-item ">
+                      <a class="page-link" href="/?page=<%= nextPage %>">Next</a>
+                    </li>
+                    
+                  </ul>
+                </nav>
+
               </div>
             </div>
           </div>
