@@ -8,7 +8,7 @@ import session from 'express-session';
 
 //middleware of session
 app.use(session({
-    secret:"any_Value",
+    secret:"any_Value", //any_Value -> it should be long random string or you can define it in .env file
     resave:false,
     saveUnitialized : false,
     store : MongoStore.create({
@@ -28,7 +28,7 @@ this session is fromed  at system RAM, but the RAM has less capacity so most dev
 */
 
 app.get('/set-session', (req,res)=>{
-    req.session.any_key = "world"; //by default session value store for 24 hrs
+    req.session.any_key = "world"; //eg-> req.session.username = "world";       To store the username.    By default session value store for 24 hrs 
     res.send("<h1>  session created </h1>")
 })
 
